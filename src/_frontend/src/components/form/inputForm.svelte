@@ -1,24 +1,49 @@
 <script lang="ts">
     import { FormType } from "../../types";
-import Button from "../atoms/button.svelte";
-    import ButtonGroup from "./buttonGroup.svelte";
+    import Button from "../atoms/button.svelte";
+    import { signupService } from "../../services";
+    import { user } from '../../store/form';
+    import { auth } from '../../store/auth';
+
     export let formType:FormType = "login";
+    
+    $: if($auth.token) {
+        $auth.username = $user.username;
+        window.location.href = "#/what-time/"
+    }
+    
+    async function handleSubmit(e:Event) {
+        e.preventDefault();
+        try {
+            if(formType === "login") {
+                console.log("will do login function");
+            } else {
+                $auth.token = await signupService(
+                    $user.username,
+                    $user.password
+                );
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 </script>
 
 <section class="login-card">
-    <form action="" >
+    <form on:submit={handleSubmit} >
         {#if formType === "login"}
             <h1>Login</h1>
         {:else}
             <h1>Sign Up</h1>
         {/if}
         <div class="login-labelgroup">
-            <label for='login-email'>Email</label><br/>
-            <input type="text" id='login-email'><br/>
+            <label for='login-username'>Username</label><br/>
+            <input type="text" id='login-username' bind:value={$user.username}><br/>
         </div>
         <div class="login-labelgroup">
             <label for='login-password'>Password</label><br/>
-            <input type="password" id='login-password'>
+            <input type="password" id='login-password' bind:value={$user.password}>
         </div>
         <section class="buttons-group">
             {#if formType === "login"}
