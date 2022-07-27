@@ -1,0 +1,13 @@
+{
+    "extends": "@tsconfig/node16/tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "lib": ["DOM","ES2022"],
+        "target": "es2017",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "esModuleInterop": true
+    },    
+    "include": ["src"],
+    "exclude": ["node_modules, src/_frontend"]
+}
