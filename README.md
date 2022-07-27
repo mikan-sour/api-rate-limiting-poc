@@ -19,8 +19,8 @@ The API is rate-limited and uses Redis to check how many requests you've made. A
 check out the API service for the details.
 
 ## ToDo
-[ ] add time until next release
-[ ] refactor app.ts to be in api folder
-[ ] write a real README
-[ ] unit tests
-[ ] clean up `models` directory
+- [ ] add time until next release
+- [ ] refactor app.ts to be in api folder
+- [ ] write a real README
+- [ ] unit tests
+- [ ] clean up `models` directory

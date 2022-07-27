@@ -10,8 +10,9 @@ svelte:
 	npm run svelte;
 ts:
 	npx tsc 
+
 setup-env:
-	cp ./.env.sample .env
+	cp ./.env.sample .env && npm install
 
 run:
 	npx tsc && \
