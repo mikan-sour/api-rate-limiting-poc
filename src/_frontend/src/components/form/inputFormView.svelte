@@ -1,37 +1,17 @@
 <script lang="ts">
     import { FormType } from "../../types";
     import Button from "../atoms/button.svelte";
-    import { signupService } from "../../services";
     import { user } from '../../store/form';
-    import { auth } from '../../store/auth';
 
     export let formType:FormType = "login";
-    
-    $: if($auth.token) {
-        $auth.username = $user.username;
-        window.location.href = "#/what-time/"
-    }
-    
-    async function handleSubmit(e:Event) {
-        e.preventDefault();
-        try {
-            if(formType === "login") {
-                console.log("will do login function");
-            } else {
-                $auth.token = await signupService(
-                    $user.username,
-                    $user.password
-                );
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    export let handleSubmit:(e:Event)=>void
+    export let errorMsg:string = "";
 
 </script>
 
 <section class="login-card">
     <form on:submit={handleSubmit} >
+        <h1 class="form-title">What-Time-Is-It-Dot-Com</h1>
         {#if formType === "login"}
             <h1>Login</h1>
         {:else}
@@ -47,14 +27,17 @@
         </div>
         <section class="buttons-group">
             {#if formType === "login"}
-                <Button>Login</Button>
+                <Button variant="big">Login</Button>
                 <a href="#/signup">Click here to sign up</a>
             {:else}
-                <Button>Sign up</Button>
+                <Button variant="big">Sign up</Button>
                 <a href="#/login">Click here to login</a>
             {/if}
         </section>
     </form>
+    {#if errorMsg}
+         <p class="errMsg">Error occurred: {errorMsg}</p>
+    {/if}
 </section>
 
 <style>
@@ -72,6 +55,12 @@
     form {
         width: 100%;
         height: 100%;
+    }
+
+    .form-title {
+        align-self: center;
+        font-size: 1.35rem;
+        margin-bottom: 1rem;
     }
 
     .login-labelgroup {
@@ -106,6 +95,10 @@
 
     .buttons-group > a {
         color: rgb(195, 94, 220);
+    }
+
+    .errMsg {
+        color:red;
     }
 
 </style>

@@ -6,3 +6,9 @@ export type APIResult<T> = {
     error:string,
     _value:T
 }
+
+export type TimeRightNow = {
+    remainingRequest:number,
+    timeRightNow?:string,
+    timeUntilNext?:string
+}

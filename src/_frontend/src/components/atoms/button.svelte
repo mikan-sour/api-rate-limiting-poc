@@ -1,10 +1,18 @@
 <script lang="ts">
-    
+    export let variant:'big'|'small'
 </script>
 
-<button><slot>
+{#if variant === "big"}
+    <button class="big" on:click><slot>
 
-</slot></button>
+    </slot></button>
+{:else}
+    <button class="small" on:click><slot>
+
+    </slot></button>
+{/if}
+
+
 
 <style>
     button {
@@ -12,8 +20,7 @@
         border-radius: 4px;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         border:transparent;
-        color: black;
-        width: 17rem;
+        color: #FFF;
         height: 2rem;
         font-size: 1rem;
         margin: 1rem;
@@ -21,5 +28,13 @@
     button:hover, button:active {
         background-color: rgb(161, 157, 205);;
         border: solid 1px rgb(100, 94, 166);
+    }
+
+    .big {
+        width: 17rem;
+    }
+
+    .small {
+        width: 7rem;
     }
 </style>
