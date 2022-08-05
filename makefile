@@ -5,6 +5,9 @@ up:
 down:
 	docker-compose down
 
+api-log:
+	docker logs --tail -f api
+
 svelte:
 	npx rollup -c rollup.config.js -o ./public/build/main.js -m && \
 	npm run svelte;

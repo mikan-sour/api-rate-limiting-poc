@@ -1,6 +1,7 @@
 version: "3"
 services:
   api:
+    container_name: api
     build:
       context: .
       dockerfile: ./src/Dockerfile
@@ -22,6 +23,7 @@ services:
       - "8080:8080"
 
   cache:
+    container_name: cache
     image: redis:6.2-alpine
     volumes:
       - ./config/cache/redis.conf:/usr/local/etc/redis/redis.conf
@@ -29,6 +31,7 @@ services:
       - '6379:6379'
 
   database:
+    container_name: db
     image: postgres
     ports:
       - "5432:5432"
