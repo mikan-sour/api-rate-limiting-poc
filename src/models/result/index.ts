@@ -23,10 +23,6 @@ export class Result<T> {
     }
   
     public getValue () : T {
-      if (!this.isSuccess) {
-        throw new Error(`Cant retrieve the value from a failed result.`)
-      } 
-  
       return this._value;
     }
   
@@ -34,8 +30,8 @@ export class Result<T> {
       return new Result<U>(true, '', value);
     }
   
-    public static fail<U> (error: string): Result<U> {
-      return new Result<U>(false, error);
+    public static fail<U> (error: string, value?:U): Result<U> {
+      return new Result<U>(false, error, value);
     }
   
     public static combine (results: Result<any>[]) : Result<any> {

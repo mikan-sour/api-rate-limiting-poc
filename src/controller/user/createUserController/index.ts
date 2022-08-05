@@ -20,13 +20,15 @@ export class CreateUserController extends BaseController {
         const userOrError: Result<User> = User.create(username, password, rateLimit);
   
         if (userOrError.isFailure) {
+          console.error("CreateUserController.userOrError err: ", userOrError.error)
           return this.clientError(res, userOrError.error);
         }
 
         const userResultOrError =  await this.userService.createUser(username,password,rateLimit);
 
         if (userResultOrError.isFailure) {
-          return this.clientError(res, userOrError.error);
+          console.error("CreateUserController.userResultOrError err: ", userOrError.error)
+          return this.clientError(res, userResultOrError.error);
         }
 
         return this.ok(res, userResultOrError) 

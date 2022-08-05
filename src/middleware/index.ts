@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { userService } from "../api/service/userService";
 import { cacheService } from "../api/useCases/limitApi";
-import { getErrorMessage } from "../utils";
+import { format429, getErrorMessage } from "../utils";
 
 export const getRateLimitByTokenMiddleware = async (req:Request, res:Response, next:()=>void) => {
     try {
@@ -24,7 +24,11 @@ export const cacheCheckMiddleware = async (req:Request, res:Response, next:()=>v
         req.body.remaining = serviceResult.getValue()[1];
         next()
     } else if(serviceResult.isFailure && serviceResult.error === "exceeded limit") {
-        res.status(429).json(serviceResult);
+        const result = format429(
+            serviceResult.error, 
+            serviceResult.getValue()[1]
+        )
+        res.status(429).json(result);
     } else {
         res.status(500).json(serviceResult);
     }

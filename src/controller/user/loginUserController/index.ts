@@ -24,11 +24,13 @@ export class LoginUserController extends BaseController {
             const { username, password } = req.body;
             const userOrError: Result<User> = User.create(username, password, 0);
             if (userOrError.isFailure) {
+                console.error("error here in userOrError")
                 return this.clientError(res, userOrError.error);
             }
 
             const loginResultOrError =  await this.userService.login(username,password);
             if (loginResultOrError.isFailure) {
+                console.log("error here in loginResultOrError")
                 return this.clientError(res, userOrError.error);
             }
 

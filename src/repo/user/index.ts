@@ -30,9 +30,13 @@ export class UserRepoPG implements IUserRepo {
     public login = async(username:string,password:string):Promise<Result<string>> => {
         const client = await this.client.connect();
         try {
-            const res = await client.query(loginQuery, [username,password,])
+            const res = await client.query(loginQuery, [username,password])
+            if(res.rowCount === 0) {
+                throw new Error("no user in DB")
+            }
             return Result.ok(res.rows[0].token)
         } catch (error) {
+            console.error("error in userRepo.login: ", error)
             return Result.fail(getErrorMessage(error))
         } finally {
             client.release()

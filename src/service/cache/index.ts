@@ -1,5 +1,4 @@
 import { API_CONFIG } from "../../config";
-import { RedisClientType } from "../../datastore/cache";
 import { ICacheRepo } from "../../models/cacheRepository";
 import { TCacheResponse } from "../../models/cacheResponse";
 import { Result } from "../../models/result";
@@ -8,7 +7,7 @@ import { getErrorMessage } from "../../utils";
 const { timeLimit } = API_CONFIG
 
 interface ICacheService {
-    checkRateLimit:(user:string, limit:number) => Promise<Result<TCacheResponse>>
+    checkRateLimit:( user:string, limit:number) => Promise<Result<TCacheResponse>>
 }
 
 export class CacheService implements ICacheService {
@@ -43,7 +42,15 @@ export class CacheService implements ICacheService {
             }).filter(val => val !=undefined);
             if(filteredArr.length >= limit) {
                 // need next exp time
-                throw new Error ("exceeded limit")
+                let nextToExpireMil = 0;
+                if(filteredArr[0]){
+                    nextToExpireMil = Date.parse(filteredArr[0]);
+                }
+                const nextToExpire = new Date(nextToExpireMil);
+                
+                const timeUntilNext = new Date(nextToExpire).getTime() + (1000 * 60 * timeLimit);
+                return Result.fail<TCacheResponse>("exceeded limit",["",timeUntilNext])
+
             }
             const addNewDateRes = await this.cacheRepo.addNewDate( user, filteredArr.join(" "), limit);
             if(addNewDateRes.isFailure) {

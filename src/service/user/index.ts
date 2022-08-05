@@ -30,6 +30,7 @@ export class UserService implements IUserService {
         try {
             return await this.userRepo.login(user,password)
         } catch (error) {
+            console.error(error);
             throw error
         }
     }

@@ -6,7 +6,7 @@ dotenv.config();
 const ENV = process.env.APP_ENV ? process.env.APP_ENV : 'development';
 const HOST = process.env.API_HOST ? process.env.API_HOST : 'localhost'
 const RATE_LIMIT = process.env.REDIS_RATE_LIMIT ? parseInt(process.env.REDIS_RATE_LIMIT) : 1;
-const TIME_LIMIT = process.env.REDIS_TIME_LIMIT ? parseInt(process.env.REDIS_TIME_LIMIT) : 1;
+const TIME_LIMIT = process.env.REDIS_TIME_LIMIT ? parseInt(process.env.REDIS_TIME_LIMIT) : 2;
 const PORT = process.env.API_PORT;
 
 const API_CONFIG = {
